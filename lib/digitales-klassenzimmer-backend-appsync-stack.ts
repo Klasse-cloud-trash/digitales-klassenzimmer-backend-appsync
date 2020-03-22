@@ -20,5 +20,10 @@ export class DigitalesKlassenzimmerBackendAppsyncStack extends cdk.Stack {
       graphQlApi: appSync,
       ...props
     });
+    new ResolverDynamoDBTable(this, `${props.stage}-CoursesTable`, {
+      graphQLTypeName: 'Course',
+      graphQlApi: appSync,
+      ...props
+    });
   }
 }

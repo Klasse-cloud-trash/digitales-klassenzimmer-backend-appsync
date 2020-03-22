@@ -35,10 +35,10 @@ export class ResolverDynamoDBTable extends Table {
 
     const dataSource = props.graphQlApi.addDynamoDbDataSource(
       `${props.stage}_${props.graphQLTypeName}DataSource`,
-      'The users data source',
+      `The ${props.graphQLTypeName} data source`,
       this
     );
-
+    console.log(`get${props.graphQLTypeName}`);
     dataSource.createResolver({
       typeName: 'Query',
       fieldName: `get${props.graphQLTypeName}`,
