@@ -1,6 +1,5 @@
 import * as cdk from '@aws-cdk/core';
 import { GraphQLApi } from '@aws-cdk/aws-appsync';
-import { BillingMode, AttributeType, Table } from '@aws-cdk/aws-dynamodb';
 import { ResolverDynamoDBTable } from './resolver-dynamodb-table';
 
 export interface Props extends cdk.StackProps {
@@ -17,11 +16,6 @@ export class DigitalesKlassenzimmerBackendAppsyncStack extends cdk.Stack {
     });
 
     new ResolverDynamoDBTable(this, `${props.stage}-UserTable`, {
-      billingMode: BillingMode.PAY_PER_REQUEST,
-      partitionKey: {
-        name: 'id',
-        type: AttributeType.STRING
-      },
       graphQLTypeName: 'User',
       graphQlApi: appSync,
       ...props

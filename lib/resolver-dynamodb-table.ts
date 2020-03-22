@@ -5,9 +5,14 @@ import {
   PrimaryKey,
   Values
 } from '@aws-cdk/aws-appsync';
-import { Table, TableProps } from '@aws-cdk/aws-dynamodb';
+import {
+  Table,
+  TableProps,
+  BillingMode,
+  AttributeType
+} from '@aws-cdk/aws-dynamodb';
 
-interface ResolverDynamoDBTableProps extends TableProps {
+interface ResolverDynamoDBTableProps extends Partial<TableProps> {
   graphQlApi: GraphQLApi;
   graphQLTypeName: string;
   stage: 'test' | 'prod';
@@ -19,7 +24,14 @@ export class ResolverDynamoDBTable extends Table {
     id: string,
     props: ResolverDynamoDBTableProps
   ) {
-    super(scope, id, props);
+    super(scope, id, {
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      partitionKey: {
+        name: 'id',
+        type: AttributeType.STRING
+      },
+      ...props
+    });
 
     const dataSource = props.graphQlApi.addDynamoDbDataSource(
       `${props.stage}_${props.graphQLTypeName}DataSource`,
