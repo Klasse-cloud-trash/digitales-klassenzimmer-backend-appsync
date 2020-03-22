@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import { GraphQLApi } from '@aws-cdk/aws-appsync';
-import { BillingMode, AttributeType } from '@aws-cdk/aws-dynamodb';
+import { BillingMode, AttributeType, Table } from '@aws-cdk/aws-dynamodb';
 import { ResolverDynamoDBTable } from './resolver-dynamodb-table';
 
 export interface Props extends cdk.StackProps {
@@ -22,7 +22,7 @@ export class DigitalesKlassenzimmerBackendAppsyncStack extends cdk.Stack {
         name: 'id',
         type: AttributeType.STRING
       },
-      fieldType: 'User',
+      graphQLTypeName: 'User',
       graphQlApi: appSync,
       ...props
     });

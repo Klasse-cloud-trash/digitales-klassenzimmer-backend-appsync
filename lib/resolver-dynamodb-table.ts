@@ -9,7 +9,7 @@ import { Table, TableProps } from '@aws-cdk/aws-dynamodb';
 
 interface ResolverDynamoDBTableProps extends TableProps {
   graphQlApi: GraphQLApi;
-  fieldType: string;
+  graphQLTypeName: string;
   stage: 'test' | 'prod';
 }
 
@@ -22,21 +22,21 @@ export class ResolverDynamoDBTable extends Table {
     super(scope, id, props);
 
     const dataSource = props.graphQlApi.addDynamoDbDataSource(
-      `${props.stage}_${props.fieldType}DataSource`,
+      `${props.stage}_${props.graphQLTypeName}DataSource`,
       'The users data source',
       this
     );
 
     dataSource.createResolver({
       typeName: 'Query',
-      fieldName: `get${props.fieldType}`,
+      fieldName: `get${props.graphQLTypeName}`,
       requestMappingTemplate: MappingTemplate.dynamoDbGetItem('id', 'id'),
       responseMappingTemplate: MappingTemplate.dynamoDbResultItem()
     });
 
     dataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: `create${props.fieldType}`,
+      fieldName: `create${props.graphQLTypeName}`,
       requestMappingTemplate: MappingTemplate.dynamoDbPutItem(
         PrimaryKey.partition('id').auto(),
         Values.projecting('input')
@@ -45,7 +45,7 @@ export class ResolverDynamoDBTable extends Table {
     });
     dataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: `update${props.fieldType}`,
+      fieldName: `update${props.graphQLTypeName}`,
       requestMappingTemplate: MappingTemplate.dynamoDbPutItem(
         PrimaryKey.partition('input.id').is('id'),
         Values.projecting('input')
@@ -54,7 +54,7 @@ export class ResolverDynamoDBTable extends Table {
     });
     dataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: `delete${props.fieldType}`,
+      fieldName: `delete${props.graphQLTypeName}`,
       requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem(
         'input.id',
         'id'
@@ -64,7 +64,7 @@ export class ResolverDynamoDBTable extends Table {
 
     dataSource.createResolver({
       typeName: 'Query',
-      fieldName: `list${props.fieldType}s`,
+      fieldName: `list${props.graphQLTypeName}s`,
       requestMappingTemplate: MappingTemplate.fromString(`{
       "version": "2017-02-28",
       "operation": "Scan",
