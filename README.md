@@ -40,6 +40,19 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk synth`       emits the synthesized CloudFormation template
 
 
+## Sample for Adding data into GraphiQL
+
+```
+mutation {
+  createUser(input: {userName: "J234oh4234n", displayName: "Do3242342e"}) {
+    id
+    userName
+    displayName
+  }
+}
+```
+
+
 ## Useful Links & Tutorials
  * [Chat scalable](https://aws.amazon.com/blogs/mobile/building-a-serverless-real-time-chat-application-with-aws-appsync/ )
  * [Resolver Mapping to Resolve Different Tables towards each other](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-dynamodb.html )
