@@ -14,7 +14,7 @@
     "@aws-cdk/assert": "1.30.0",
     "@types/jest": "^24.0.22",
     "@types/node": "10.17.5",
-    "aws-cdk": "1.30.0",
+    "aws-cdk": "1.174.0",
     "jest": "^24.9.0",
     "prettier": "^2.0.1",
     "ts-jest": "^24.1.0",
